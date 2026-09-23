@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide Tutoriel Pas-à-Pas - Ibrahim Chegrane</title>
+    <style>
+        @page { size: letter; margin: 12mm 15mm; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.5;
+            font-size: 9.5pt;
+            margin: 0; padding: 0;
+        }
+
+        .running-header {
+            width: 100%;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 6px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8.5pt;
+            color: #475569;
+        }
+
+        .main-title-container { text-align: center; margin-bottom: 18px; }
+        .main-title { font-size: 15pt; font-weight: 800; color: #0f172a; text-transform: uppercase; margin: 0; }
+
+        h1.lab-title {
+            font-size: 12pt;
+            font-weight: 800;
+            color: #0369a1;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 4px;
+            margin-top: 22px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 10pt;
+            font-weight: 700;
+            color: #0f172a;
+            background-color: #f1f5f9;
+            padding: 4px 8px;
+            border-left: 3.5px solid #0284c7;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #0369a1;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        ol, ul { margin-top: 0; margin-bottom: 10px; padding-left: 18px; }
+
+        /* un titre ne reste jamais seul en bas de page ; une capture ne se coupe pas */
+        h1.lab-title, h2, h3 { page-break-after: avoid; break-after: avoid; }
+        .step-img, .pedago-note, .demo-choc, .download-box, .topology-container {
+            page-break-inside: avoid; break-inside: avoid;
+        }
+        li { margin-bottom: 6px; }
+
+        .cmd-box {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            margin: 8px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        .cmd-box .prompt { color: #38bdf8; font-weight: bold; }
+
+        .cmd {
+            background-color: #f1f5f9;
+            color: #0284c7;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 8.5pt;
+            font-weight: 700;
+            padding: 1.5px 6px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        .key {
+            background-color: #f8fafc;
+            color: #334155;
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .step-img {
+            display: block;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            margin: 8px auto 12px auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .download-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 4px solid #16a34a;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+        }
+        .download-box h3 {
+            margin-top: 0;
+            color: #15803d;
+            font-size: 9.5pt;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .download-box a {
+            color: #0284c7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .topology-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 14px 0 18px 0;
+            gap: 10px;
+        }
+        .net-card {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-top: 4px solid #0284c7;
+            border-radius: 6px;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .net-card.net-b { border-top-color: #0d9488; }
+        .net-card .net-title { font-weight: 800; font-size: 8.5pt; color: #0f172a; margin-bottom: 4px; }
+        .net-card .net-subnet {
+            font-family: monospace;
+            font-size: 8pt;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .net-card ul { list-style: none; padding: 0; margin: 0; font-size: 8pt; color: #334155; text-align: left; }
+        .net-card li { margin-bottom: 2px; }
+
+        .router-card {
+            flex: 1.1;
+            background: #0f172a;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+        .router-card .router-title { font-weight: 800; font-size: 9pt; color: #38bdf8; margin-bottom: 6px; text-transform: uppercase; }
+        .router-card .if-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 4px 6px;
+            margin: 4px 0;
+            font-family: monospace;
+            font-size: 7.5pt;
+            color: #e2e8f0;
+            text-align: left;
+        }
+        .router-card .if-box strong { color: #facc15; }
+        .link-arrow { font-size: 12pt; font-weight: bold; color: #94a3b8; }
+
+        .pedago-note {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-left: 4px solid #0284c7;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin: 16px 0;
+            font-size: 9pt;
+        }
+        .pedago-note h3 { margin-top: 0; margin-bottom: 6px; color: #0369a1; font-size: 9.5pt; }
+
+        .demo-choc {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #ef4444;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin: 16px 0;
+            font-size: 9pt;
+        }
+        .demo-choc h3 { margin-top: 0; margin-bottom: 6px; color: #991b1b; font-size: 9.5pt; }
+    </style>
+</head>
+<body>
+
+    <div class="running-header">
+        <div><strong>Cégep de Sherbrooke — Département d'Informatique</strong> | Ibrahim Chegrane</div>
+        <div>Guide Tutoriel Pas-à-Pas</div>
+    </div>
+
+    <div class="main-title-container">
+        <h1 class="main-title">Guide de Configuration : Adressage IPv4 & Routage Inter-Réseaux</h1>
+    </div>
+
+    <!-- OBTENIR PACKET TRACER -->
+    <div class="download-box">
+        <h3>🚀 Logiciel & Ressources : Cisco Packet Tracer (Gratuit)</h3>
+        <p style="margin: 4px 0 8px 0;">Cisco Packet Tracer est un simulateur réseau visuel et puissant distribué <strong>gratuitement</strong> par la Cisco Networking Academy (+15 millions d'étudiants déjà inscrits dans le monde !).</p>
+        <ul style="margin-bottom: 0;">
+            <li><strong>Téléchargement du logiciel & TP :</strong> <a href="https://www.netacad.com/resources/lab-downloads?courseLang=fr-FR" target="_blank">Télécharger Packet Tracer sur NetAcad</a></li>
+            <li><strong>Présentation de l'outil :</strong> <a href="https://www.netacad.com/cisco-packet-tracer" target="_blank">Page officielle Cisco Packet Tracer</a></li>
+            <li><strong>Cours d'apprentissage gratuit :</strong> <a href="https://www.netacad.com/fr/courses/getting-started-cisco-packet-tracer?courseLang=fr-FR" target="_blank">Getting Started with Cisco Packet Tracer (en français)</a></li>
+        </ul>
+    </div>
+
+    <!-- ÉTAPE 0 -->
+    <h2>💻 Étape 0 : Prise en main de l'invite de commande Windows</h2>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 15px;">
+        <span style="background-color: #0284c7; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 8pt;">ÉTAPE 0.1</span>
+        <strong style="margin-left: 6px;">Ouvrir le terminal Windows (cmd)</strong>
+        <p style="margin-top: 6px; margin-bottom: 8px;">Sur votre poste Windows, appuyez sur les touches <span class="key">Windows + R</span>, saisissez <span class="cmd">cmd</span> puis appuyez sur <strong>Entrée</strong>.</p>
+        
+        <div class="cmd-box"><span class="prompt">C:\Users\Etudiant&gt;</span> ipconfig
+
+Carte Ethernet Ethernet 0 :
+   Adresse IPv4. . . . . . . . . . . . . . : 10.2.14.45
+   Masque de sous-réseau . . . . . . . . . : 255.255.255.0
+   Passerelle par défaut . . . . . . . . . : 10.2.14.1
+
+<span class="prompt">C:\Users\Etudiant&gt;</span> ping 127.0.0.1
+Réponse de 127.0.0.1 : octets=32 temps&lt;1ms TTL=128 (Boucle locale OK)</div>
+    </div>
+
+    <!-- LABORATOIRE 1 -->
+    <h1 class="lab-title">Laboratoire 1 : Configuration d'un réseau local simple (LAN)</h1>
+
+    <div style="margin-bottom: 10px;">
+        <strong>Objectifs :</strong>
+        <ul>
+            <li>Créer un réseau local de 3 ordinateurs interconnectés par un commutateur (<em>Switch</em>).</li>
+            <li>Configurer les adresses IPv4 statiques et les masques de sous-réseau.</li>
+            <li>Vérifier la connectivité locale avec la commande <span class="cmd">ping</span>.</li>
+        </ul>
+    </div>
+
+
+    <!-- NOTE : NOMS DES ÉQUIPEMENTS -->
+    <div class="pedago-note" style="background-color:#fffbeb; border-color:#fde68a; border-left-color:#d97706;">
+        <h3 style="color:#b45309;">📌 Les noms affichés dans les captures d'écran</h3>
+        <p style="margin-bottom:6px;">Packet Tracer <strong>numérote automatiquement</strong> chaque appareil ajouté : <code>PC7</code>, <code>Switch3</code>, <code>Router1</code>… Ce numéro dépend simplement du nombre d'appareils déjà créés depuis l'ouverture du logiciel. <strong>Vos numéros seront différents des miens, et c'est parfaitement normal.</strong></p>
+        <p style="margin-bottom:4px;">Fiez-vous toujours à <strong>l'adresse IP</strong> et à la <strong>position dans la topologie</strong> — jamais au nom affiché. Correspondance dans ce guide :</p>
+        <ul style="margin-bottom:6px;">
+            <li><code>PC7</code>, <code>PC8</code>, <code>PC9</code> = les <strong>trois postes du Réseau A</strong> (<code>192.168.1.10</code> à <code>192.168.1.12</code>). Celui qui porte <code>192.168.1.10</code> est le <code>PC1</code> de l'énoncé.</li>
+            <li><code>PC10</code>, <code>PC11</code> = les <strong>deux postes du Réseau B</strong> (<code>192.168.2.10</code> et <code>192.168.2.11</code>), soit <code>PC4</code> et <code>PC5</code>.</li>
+            <li><code>Switch3</code> = <strong>Switch 1</strong> (Réseau A) &nbsp;·&nbsp; <code>Switch4</code> = <strong>Switch 2</strong> (Réseau B) &nbsp;·&nbsp; <code>Router1</code> ou <code>Router3</code> = le <strong>Routeur</strong>.</li>
+        </ul>
+        <p style="margin-bottom:0;">Attention aussi à l'orientation : dans les captures, le <strong>Réseau A apparaît à droite</strong> et le Réseau B à gauche. La position à l'écran n'a aucune importance — seul l'adressage compte. <em>Vous pouvez renommer un appareil en cliquant sur son nom, sous l'icône.</em></p>
+    </div>
+
+    <h3>Étape 1 : Ajout des équipements</h3>
+    <ol>
+        <li>En bas à gauche, cliquez sur l'icône <strong>End Devices</strong> (Flèche 1).</li>
+        <li>Dans le panneau de droite, sélectionnez <strong>PC</strong> (Flèche 2) et faites un glisser-déplacer de <strong>3 ordinateurs</strong> (<code>PC1</code>, <code>PC2</code>, <code>PC3</code>) dans la zone de travail.
+            <img src="images/1_add_pc.png" alt="Ajouter les PC" class="step-img">
+        </li>
+        <li>En bas à gauche, cliquez sur <strong>Network Devices</strong> (Flèche 1), puis sur <strong>Switches</strong> (Flèche 2).</li>
+        <li>Choisissez le modèle <strong>2960</strong> (Flèche 3) et glissez-le vers le centre de l'écran pour former le <code>Switch 1</code>.
+            <img src="images/2_add_switch.png" alt="Ajouter le Switch" class="step-img">
+        </li>
+    </ol>
+
+    <!-- NOTION ÉQUIPEMENT : SWITCH -->
+    <div class="pedago-note">
+        <h3>🔌 Qu'est-ce qu'un Switch (Commutateur) ?</h3>
+        <p>Un <strong>Switch</strong> sert à interconnecter des machines appartenant à un <strong>même réseau local (LAN)</strong>. Il apprend dynamiquement les adresses MAC des appareils connectés à ses ports et distribue intelligemment les messages uniquement vers le bon destinataire local.</p>
+    </div>
+
+    <h3>Étape 2 : Câblage des équipements</h3>
+    <ol>
+        <li>Cliquez sur l'icône en forme d'éclair <strong>Connections</strong> (Flèche 1).</li>
+        <li>Sélectionnez l'éclair orange <strong>Automatically Choose Connection Type</strong> (Flèche 2).</li>
+        <li>Reliez chaque PC au <code>Switch 1</code> un par un (cliquez sur le PC, puis sur le Switch).
+            <img src="images/3_add_cable.png" alt="Câbler les équipements" class="step-img">
+        </li>
+    </ol>
+
+    <h3>Étape 3 : Configuration des adresses IPv4</h3>
+    <ol>
+        <li>Double-cliquez sur le premier PC (<code>PC1</code>).</li>
+        <li>Dans la fenêtre qui s'ouvre, allez dans l'onglet <strong>Desktop</strong> (Flèche 1), puis cliquez sur <strong>IP Configuration</strong> (Flèche 2).
+            <img src="images/4_pc_ip-config_cmd.png" alt="Onglet Desktop" class="step-img">
+        </li>
+        <li>Entrez les paramètres suivants :
+            <ul>
+                <li><strong>IPv4 Address :</strong> <code>192.168.1.10</code></li>
+                <li><strong>Subnet Mask :</strong> Cliquez dans la case, il se remplit automatiquement à <code>255.255.255.0</code>.</li>
+            </ul>
+            <img src="images/5_pc_ip-config.png" alt="Configuration IP" class="step-img">
+        </li>
+        <li>Répétez l'opération pour les deux autres PC du Réseau A :
+            <ul>
+                <li><code>PC2</code> : IP <code>192.168.1.11</code> | Masque <code>255.255.255.0</code></li>
+                <li><code>PC3</code> : IP <code>192.168.1.12</code> | Masque <code>255.255.255.0</code></li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>Étape 4 : Vérification et tests de connectivité</h3>
+    <ol>
+        <li>Double-cliquez sur <code>PC1</code> (<code>192.168.1.10</code>).</li>
+        <li>Dans l'onglet <strong>Desktop</strong>, ouvrez <strong>Command Prompt</strong>.</li>
+        <li>Tapez <span class="cmd">ipconfig</span> pour vérifier vos paramètres, puis testez la communication avec <code>PC2</code> :
+            <div class="cmd-box"><span class="prompt">C:\&gt;</span> ping 192.168.1.11</div>
+            <em>(Vous devez obtenir 4 réponses "Reply from 192.168.1.11").</em>
+            <img src="images/6_pc_cmd.png" alt="Test Ping Réussi" class="step-img">
+        </li>
+    </ol>
+
+    <!-- LABORATOIRE 2 -->
+    <h1 class="lab-title">Laboratoire 2 : Interconnexion de deux réseaux via un Routeur (Passerelle)</h1>
+
+    <div class="topology-container">
+        <div class="net-card">
+            <div class="net-title">RÉSEAU A</div>
+            <div class="net-subnet">192.168.1.0</div>
+            <ul>
+                <li>• <code>PC1</code> : 192.168.1.10</li>
+                <li>• <code>PC2</code> : 192.168.1.11</li>
+                <li>• <code>PC3</code> : 192.168.1.12</li>
+                <li>• <strong>Switch 1</strong> (2960)</li>
+            </ul>
+        </div>
+
+        <div class="link-arrow">◄─►</div>
+
+        <div class="router-card">
+            <div class="router-title">ROUTEUR (ISR4331)</div>
+            <div class="if-box"><strong>Gig0/0/0 :</strong> 192.168.1.1</div>
+            <div class="if-box"><strong>Gig0/0/1 :</strong> 192.168.2.1</div>
+        </div>
+
+        <div class="link-arrow">◄─►</div>
+
+        <div class="net-card net-b">
+            <div class="net-title">RÉSEAU B</div>
+            <div class="net-subnet">192.168.2.0</div>
+            <ul>
+                <li>• <code>PC4</code> : 192.168.2.10</li>
+                <li>• <code>PC5</code> : 192.168.2.11</li>
+                <li>• <strong>Switch 2</strong> (2960)</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Étape 1 : Créer le Réseau B</h3>
+    <ol>
+        <li>Ajoutez un <strong>2ᵉ Switch</strong> (<code>Switch 2</code>) et <strong>2 nouveaux PC</strong> (<code>PC4</code> et <code>PC5</code>).</li>
+        <li>Câblez ces PC au <code>Switch 2</code> avec l'éclair orange.</li>
+        <li>Configurez les adresses IP statiques du Réseau B :
+            <ul>
+                <li><code>PC4</code> : IP <code>192.168.2.10</code> | Masque <code>255.255.255.0</code></li>
+                <li><code>PC5</code> : IP <code>192.168.2.11</code> | Masque <code>255.255.255.0</code></li>
+            </ul>
+            <img src="images/7_add_2nd_network.png" alt="Créer Réseau B" class="step-img">
+        </li>
+    </ol>
+
+    <h3>Étape 2 : Ajouter le Routeur (La Passerelle)</h3>
+
+    <!-- NOTION ÉQUIPEMENT : ROUTEUR -->
+    <div class="pedago-note">
+        <h3>🌐 Qu'est-ce qu'un Routeur (Passerelle / Gateway) ?</h3>
+        <p>Contrairement au Switch qui travaille uniquement à l'intérieur d'un même réseau, le <strong>Routeur</strong> possède des interfaces dans <strong>plusieurs réseaux distincts</strong>. Son rôle est de transférer les paquets de données d'un réseau IP vers un autre. L'adresse IP du routeur dans votre sous-réseau est ce qu'on appelle la <strong>passerelle par défaut</strong> (<em>Default Gateway</em>).</p>
+    </div>
+
+    <ol>
+        <li>Sous <strong>Network Devices &gt; Routers</strong>, choisissez le routeur <strong>ISR4331</strong> et glissez-le entre les deux Switches.
+            <img src="images/8_add_retour.png" alt="Ajouter Routeur ISR4331" class="step-img">
+        </li>
+        <li>Avec l'icône <strong>Éclair orange</strong> :
+            <ul>
+                <li>Câblez le <strong>Switch 1</strong> au <strong>Routeur</strong> (interface <code>GigabitEthernet0/0/0</code>).</li>
+                <li>Câblez le <strong>Switch 2</strong> au <strong>Routeur</strong> (interface <code>GigabitEthernet0/0/1</code>).</li>
+            </ul>
+            <em>(Remarque : Les voyants restent rouges car les interfaces d'un routeur Cisco sont éteintes par défaut).</em>
+            <img src="images/9_add_retour_cable.png" alt="Câblage Routeur" class="step-img">
+        </li>
+    </ol>
+
+    <h3>Étape 3 : Configurer les interfaces du Routeur (Les Passerelles)</h3>
+    <ol>
+        <li>Double-cliquez sur le <strong>Routeur</strong> &gt; onglet <strong>Config</strong>.</li>
+        <li><strong>Interface Réseau A (Côté gauche) :</strong> Cliquez sur <strong>GigabitEthernet0/0/0</strong>, entrez l'IP <code>192.168.1.1</code>, Masque <code>255.255.255.0</code>, et cochez <strong>Port Status : On</strong>.
+            <img src="images/10_retour_config_1.png" alt="Configuration Passerelle Gig0/0/0" class="step-img">
+        </li>
+        <li><strong>Interface Réseau B (Côté droit) :</strong> Cliquez sur <strong>GigabitEthernet0/0/1</strong>, entrez l'IP <code>192.168.2.1</code>, Masque <code>255.255.255.0</code>, et cochez <strong>Port Status : On</strong>.
+            <img src="images/11_retour_config_2.png" alt="Configuration Passerelle Gig0/0/1" class="step-img">
+        </li>
+    </ol>
+
+    <h3>Étape 4 : Indiquer la Passerelle aux PC</h3>
+    <ol>
+        <li>Sur le Réseau A, ouvrez la fenêtre <strong>IP Configuration</strong> de chaque poste (<code>PC1</code>, <code>PC2</code>, <code>PC3</code>).</li>
+        <li>Renseignez le champ <strong>Default Gateway</strong> avec l'adresse du routeur côté gauche : <code>192.168.1.1</code>.
+            <img src="images/12_pc_passerl_config.png" alt="Configuration Passerelle PC" class="step-img">
+        </li>
+        <li>Sur le Réseau B, renseignez la <strong>Default Gateway</strong> de chaque PC (<code>PC4</code>, <code>PC5</code>) avec l'adresse côté droit : <code>192.168.2.1</code>.</li>
+    </ol>
+
+    <h3>Étape 5 : Le Grand Test de Routage !</h3>
+    <ol>
+        <li>Ouvrez l'invite de commande de <code>PC1</code> (<code>192.168.1.10</code>).</li>
+        <li>Testez la joignabilité de sa propre passerelle : <span class="cmd">ping 192.168.1.1</span></li>
+        <li>Testez la communication inter-réseau vers <code>PC4</code> du Réseau B : <span class="cmd">ping 192.168.2.10</span>
+            <br><em>(Le premier paquet peut indiquer "Request timed out" le temps que la table ARP se construise, puis les suivants répondent avec succès !)</em>
+        </li>
+    </ol>
+
+    <!-- ÉTAPE 6 -->
+    <h2>🎯 Étape 6 : Prouver l'utilité absolue de la passerelle</h2>
+    <div class="demo-choc">
+        <h3>Cassez volontairement la configuration, puis observez</h3>
+        <p>Vous venez de faire communiquer deux réseaux. Vérifions maintenant ce qui rendait cette communication possible.</p>
+        <ol>
+            <li>Sur <code>PC1</code> (<code>192.168.1.10</code>), retournez dans <strong>IP Configuration</strong> et <strong>effacez</strong> l'adresse de la <strong>Default Gateway</strong> (remettez-la à <code>0.0.0.0</code>). Ne touchez à rien d'autre : l'adresse IP, le masque et les câbles restent exactement les mêmes.</li>
+            <li>Ouvrez le <strong>Command Prompt</strong> et relancez le ping vers <code>PC4</code>, qui se trouve dans l'autre réseau :
+                <div class="cmd-box"><span class="prompt">C:\&gt;</span> ping 192.168.2.10</div>
+                Résultat immédiat : <code>Destination host unreachable</code>.
+            </li>
+            <li>Relancez maintenant un ping vers <code>PC2</code>, qui est dans <strong>votre propre réseau</strong> :
+                <div class="cmd-box"><span class="prompt">C:\&gt;</span> ping 192.168.1.11</div>
+                Celui-là <strong>fonctionne toujours</strong>.
+            </li>
+            <li>Remettez la passerelle <code>192.168.1.1</code> sur <code>PC1</code> et vérifiez que le ping vers <code>PC4</code> repasse.</li>
+        </ol>
+        <p style="margin-bottom:0;"><strong>Ce qu'il faut comprendre :</strong> sans l'adresse de sa passerelle, le poste ne sait pas à qui remettre un paquet destiné à un autre réseau — il ne l'envoie même pas sur le câble. En revanche, les machines de son propre réseau restent parfaitement joignables. La passerelle ne sert qu'à <em>sortir</em> du réseau local.</p>
+    </div>
+
+</body>
+</html>

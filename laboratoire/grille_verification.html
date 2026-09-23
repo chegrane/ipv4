@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Grille de vérification — Laboratoire Adressage IPv4</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 12mm 15mm;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.45;
+            font-size: 9.5pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .running-header {
+            width: 100%;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 8.5pt;
+            color: #475569;
+        }
+        .header-left { text-align: left; }
+        .header-right { text-align: right; }
+
+        .main-title-container {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .main-title {
+            font-size: 14pt;
+            font-weight: 800;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            background-color: #f1f5f9;
+            padding: 4px 8px;
+            border-left: 3.5px solid #0284c7;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p { margin-top: 0; margin-bottom: 6px; }
+
+        /* un titre ne reste jamais seul en bas de page */
+        h2 { page-break-after: avoid; break-after: avoid; }
+        table { page-break-inside: avoid; break-inside: avoid; }
+
+        ol, ul {
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-left: 18px;
+        }
+        li { margin-bottom: 3px; }
+
+        .cmd {
+            background-color: #f1f5f9;
+            color: #0284c7;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 8.5pt;
+            font-weight: 700;
+            padding: 1.5px 6px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        .key {
+            background-color: #f8fafc;
+            color: #334155;
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            border: 1px solid #cbd5e1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            font-size: 8.5pt;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 4px 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        tr:nth-child(even) { background-color: #f8fafc; }
+
+        /* Encadré d'aide mémoire matériel */
+        .concept-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 3.5px solid #16a34a;
+            border-radius: 4px;
+            padding: 6px 10px;
+            margin-bottom: 12px;
+            font-size: 8.5pt;
+        }
+        .concept-box strong { color: #15803d; }
+
+        /* Topologie visuelle */
+        .topology-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 8.5pt;
+            text-align: center;
+        }
+        .lan-box {
+            background-color: #ffffff;
+            border: 1px solid #bae6fd;
+            border-radius: 4px;
+            padding: 6px 10px;
+            width: 38%;
+        }
+        .lan-title {
+            font-weight: 700;
+            color: #0369a1;
+            font-size: 8pt;
+            border-bottom: 1px solid #e0f2fe;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+        .router-box {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-weight: 700;
+            font-size: 8pt;
+            width: 18%;
+        }
+        .link-line {
+            font-family: monospace;
+            color: #64748b;
+            font-size: 7.5pt;
+        }
+
+        .footer-note {
+            margin-top: 10px;
+            padding: 6px 10px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 8pt;
+            color: #475569;
+        }
+        .page-footer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 7.5pt;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="running-header">
+        <div class="header-left">
+            <strong>Cégep de Sherbrooke — Département d'Informatique</strong><br>
+            Enseignant : Ibrahim Chegrane
+        </div>
+        <div class="header-right">
+            Laboratoire : Adressage IPv4 &amp; Routage Inter-Réseaux
+        </div>
+    </div>
+
+    <div class="main-title-container">
+        <h1 class="main-title">Grille de vérification</h1>
+    </div>
+
+    <table style="margin-bottom:14px;">
+        <tr>
+            <td style="width:45%;">Nom de l'étudiant(e) : &nbsp;__________________________________</td>
+            <td style="width:30%;">Équipe : &nbsp;____________________</td>
+            <td>Date : &nbsp;________________</td>
+        </tr>
+    </table>
+
+    <div class="concept-box">
+        <strong>Comment cette grille est utilisée :</strong> à la fin de la séance, l'enseignant valide chaque élément directement à votre poste. La correction porte sur le <strong>fonctionnement et votre capacité à expliquer ce que vous avez fait</strong>, jamais sur la vitesse d'exécution. Un élément non validé n'est pas une faute : c'est un point à revoir ensemble.
+    </div>
+
+    <table>
+        <thead>
+            <tr><th style="width:58%;">Élément vérifié</th><th>Partie</th><th style="width:12%;">Validé</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Vous savez lire votre adresse IPv4, votre masque et votre passerelle avec <span class="cmd">ipconfig</span></td><td>Partie 0</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Le <span class="cmd">ping 127.0.0.1</span> répond, et vous savez dire ce qu'il teste réellement</td><td>Partie 0</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Les 3 postes du Réseau A sont câblés au Switch 1 et correctement adressés</td><td>Partie 1</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Le ping entre deux postes du Réseau A réussit (4 réponses, 0 perte)</td><td>Partie 1</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Le Réseau B est monté et ses deux postes sont adressés en <code>192.168.2.x</code></td><td>Partie 2</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Les deux interfaces du routeur portent la bonne adresse et sont <strong>activées</strong> (Port Status : On)</td><td>Partie 2</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>La passerelle par défaut est renseignée sur les cinq postes</td><td>Partie 2</td><td style="text-align:center;">☐</td></tr>
+            <tr><td>Le ping de <code>PC1</code> vers <code>PC4</code> traverse les deux réseaux et réussit</td><td>Partie 2</td><td style="text-align:center;">☐</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Remarques de l'enseignant</h2>
+    <table>
+        <tr><td style="height:22px;">&nbsp;</td></tr>
+        <tr><td style="height:22px;">&nbsp;</td></tr>
+        <tr><td style="height:22px;">&nbsp;</td></tr>
+    </table>
+
+    <div class="footer-note">
+        <strong>À retenir avant de quitter la séance :</strong> un <em>switch</em> relie les machines d'un même réseau · un <em>routeur</em> relie des réseaux différents · la <em>passerelle par défaut</em> est l'adresse du routeur dans votre propre réseau, et elle ne sert qu'à en sortir.
+    </div>
+
+    <div class="page-footer">
+        <span>Cégep de Sherbrooke — Ibrahim Chegrane</span>
+        <span>Grille de vérification</span>
+    </div>
+
+</body>
+</html>

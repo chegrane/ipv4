@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Laboratoire : Adressage IPv4 & Routage Inter-Réseaux</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 12mm 15mm;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.45;
+            font-size: 9.5pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .running-header {
+            width: 100%;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 8.5pt;
+            color: #475569;
+        }
+        .header-left { text-align: left; }
+        .header-right { text-align: right; }
+
+        .main-title-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .main-title {
+            font-size: 14pt;
+            font-weight: 800;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            background-color: #f1f5f9;
+            padding: 4px 8px;
+            border-left: 3.5px solid #0284c7;
+            margin-top: 9px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p { margin-top: 0; margin-bottom: 6px; }
+
+        /* un titre ne reste jamais seul en bas de page */
+        h2 { page-break-after: avoid; break-after: avoid; }
+        table { page-break-inside: avoid; break-inside: avoid; }
+
+        ol, ul {
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-left: 18px;
+        }
+        li { margin-bottom: 2px; }
+
+        .cmd {
+            background-color: #f1f5f9;
+            color: #0284c7;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 8.5pt;
+            font-weight: 700;
+            padding: 1.5px 6px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        .key {
+            background-color: #f8fafc;
+            color: #334155;
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            border: 1px solid #cbd5e1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            margin-bottom: 7px;
+            font-size: 8.5pt;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 3px 7px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        tr:nth-child(even) { background-color: #f8fafc; }
+
+        /* Encadré d'aide mémoire matériel */
+        .concept-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 3.5px solid #16a34a;
+            border-radius: 4px;
+            padding: 5px 9px;
+            margin-bottom: 9px;
+            font-size: 8.5pt;
+        }
+        .concept-box strong { color: #15803d; }
+
+        /* Topologie visuelle */
+        .topology-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 8.5pt;
+            text-align: center;
+        }
+        .lan-box {
+            background-color: #ffffff;
+            border: 1px solid #bae6fd;
+            border-radius: 4px;
+            padding: 6px 10px;
+            width: 38%;
+        }
+        .lan-title {
+            font-weight: 700;
+            color: #0369a1;
+            font-size: 8pt;
+            border-bottom: 1px solid #e0f2fe;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+        .router-box {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-weight: 700;
+            font-size: 8pt;
+            width: 18%;
+        }
+        .link-line {
+            font-family: monospace;
+            color: #64748b;
+            font-size: 7.5pt;
+        }
+
+        .footer-note {
+            margin-top: 6px;
+            padding: 5px 9px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 8pt;
+            color: #475569;
+        }
+        .page-footer {
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 7.5pt;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="running-header">
+        <div class="header-left">
+            <strong>Cégep de Sherbrooke — Département d'Informatique</strong><br>
+            Enseignant : Ibrahim Chegrane
+        </div>
+        <div class="header-right">
+            Environnement : Windows & Cisco Packet Tracer
+        </div>
+    </div>
+
+    <div class="main-title-container">
+        <h1 class="main-title">Laboratoire : Adressage IPv4 & Routage Inter-Réseaux</h1>
+    </div>
+    <p style="text-align:center; margin-top:-8px; margin-bottom:14px; font-size:8.5pt; color:#475569;">
+        Durée totale : <strong>30 minutes</strong> &nbsp;·&nbsp; Partie 0 : 5 min &nbsp;·&nbsp; Partie 1 : 15 min &nbsp;·&nbsp; Partie 2 : 10 min
+    </p>
+
+    <!-- RAPPEL PÉDAGOGIQUE -->
+    <div class="concept-box">
+        <strong>💡 Aide-mémoire Équipements :</strong>
+        <ul style="margin: 3px 0 0 0; padding-left: 16px;">
+            <li><strong>Switch (Commutateur) :</strong> Relie les ordinateurs d'un <em>même réseau local</em>. Il transmet les paquets entre ordinateurs du même sous-réseau.</li>
+            <li><strong>Routeur (Passerelle / Gateway) :</strong> Relie <em>plusieurs réseaux différents</em>. Il sert de porte de sortie pour joindre une adresse IP externe.</li>
+        </ul>
+    </div>
+
+    <h2>Partie 0 : Diagnostic sur votre poste Windows (5 min)</h2>
+    <ol>
+        <li>Ouvrez l'invite de commande Windows (<span class="key">Windows + R</span>, tapez <span class="cmd">cmd</span> puis appuyez sur <strong>Entrée</strong>).</li>
+        <li>Exécutez la commande <span class="cmd">ipconfig</span> pour afficher votre adresse IPv4 locale et votre passerelle par défaut.</li>
+        <li>Testez le fonctionnement de votre carte réseau interne (boucle locale) : <span class="cmd">ping 127.0.0.1</span></li>
+        <li>Demandez l'adresse IP de votre voisin de table et testez la communication locale : <span class="cmd">ping [IP_du_voisin]</span></li>
+        <li><em>(Optionnel)</em> Testez l'accès au réseau externe : <span class="cmd">ping google.ca</span></li>
+    </ol>
+
+    <h2>Partie 1 : Création du Réseau Local A (LAN A) &nbsp;(15 min)</h2>
+    <p>Montez la topologie du Réseau A dans Cisco Packet Tracer avec <strong>3 PC</strong> reliés à <strong>1 Switch (2960)</strong>. Assignez les adresses IP statiques ci-dessous et validez la communication locale avec <span class="cmd">ping 192.168.1.11</span> depuis <code>PC1</code>.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Équipement</th>
+                <th>Interface</th>
+                <th>Adresse IPv4</th>
+                <th>Masque de sous-réseau</th>
+                <th>Passerelle par défaut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>PC1</strong></td>
+                <td>FastEthernet0</td>
+                <td>192.168.1.10</td>
+                <td>255.255.255.0</td>
+                <td>Non requise (Partie 1)</td>
+            </tr>
+            <tr>
+                <td><strong>PC2</strong></td>
+                <td>FastEthernet0</td>
+                <td>192.168.1.11</td>
+                <td>255.255.255.0</td>
+                <td>Non requise (Partie 1)</td>
+            </tr>
+            <tr>
+                <td><strong>PC3</strong></td>
+                <td>FastEthernet0</td>
+                <td>192.168.1.12</td>
+                <td>255.255.255.0</td>
+                <td>Non requise (Partie 1)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Partie 2 : Interconnexion LAN A et LAN B via Routeur &nbsp;(10 min)</h2>
+    <p>Ajoutez le Réseau B (2 PC + 1 Switch) et raccordez les deux réseaux locaux au <strong>Routeur ISR4331</strong>.</p>
+
+    <!-- Topologie visuelle -->
+    <div class="topology-card">
+        <div class="lan-box">
+            <div class="lan-title">RÉSEAU A : 192.168.1.0</div>
+            <div>PC1, PC2, PC3 ── Switch 1</div>
+            <div style="font-size:7.5pt; color:#64748b; margin-top:2px;">Passerelle : 192.168.1.1</div>
+        </div>
+        <div class="link-line">Gig0/0/0<br>◄──►</div>
+        <div class="router-box">
+            ROUTEUR<br><span style="font-size:7pt; font-weight:normal;">ISR4331</span>
+        </div>
+        <div class="link-line">Gig0/0/1<br>◄──►</div>
+        <div class="lan-box">
+            <div class="lan-title">RÉSEAU B : 192.168.2.0</div>
+            <div>Switch 2 ── PC4, PC5</div>
+            <div style="font-size:7.5pt; color:#64748b; margin-top:2px;">Passerelle : 192.168.2.1</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Équipement</th>
+                <th>Interface</th>
+                <th>Adresse IPv4</th>
+                <th>Masque</th>
+                <th>Passerelle par défaut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>PC1, PC2, PC3</strong></td>
+                <td>FastEthernet0</td>
+                <td>192.168.1.X</td>
+                <td>255.255.255.0</td>
+                <td><strong>192.168.1.1</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Routeur (Port A)</strong></td>
+                <td>GigabitEthernet0/0/0</td>
+                <td>192.168.1.1</td>
+                <td>255.255.255.0</td>
+                <td>N/A (Interface directe)</td>
+            </tr>
+            <tr>
+                <td><strong>Routeur (Port B)</strong></td>
+                <td>GigabitEthernet0/0/1</td>
+                <td>192.168.2.1</td>
+                <td>255.255.255.0</td>
+                <td>N/A (Interface directe)</td>
+            </tr>
+            <tr>
+                <td><strong>PC4, PC5</strong></td>
+                <td>FastEthernet0</td>
+                <td>192.168.2.X</td>
+                <td>255.255.255.0</td>
+                <td><strong>192.168.2.1</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Action de validation finale :</strong> Depuis l'invite de commande de <code>PC1</code>, lancez <span class="cmd">ping 192.168.2.10</span> vers <code>PC4</code>. Confirmez que le routage IPv4 fonctionne entre les deux réseaux.</p>
+
+    <p><strong>Dernière manipulation — le rôle de la passerelle :</strong> sur <code>PC1</code>, <strong>effacez</strong> l'adresse de la passerelle par défaut (remettez-la à <code>0.0.0.0</code>) sans rien changer d'autre. Relancez <span class="cmd">ping 192.168.2.10</span> et notez le message obtenu. Remettez ensuite la passerelle <code>192.168.1.1</code> et vérifiez que la communication revient.</p>
+
+
+    <div class="footer-note">
+        <strong>Besoin d'aide visuelle ?</strong> Si vous hésitez sur les étapes dans Cisco Packet Tracer, consultez le <em>Guide Tutoriel Pas-à-Pas</em>. &nbsp;·&nbsp; <strong>Évaluation :</strong> voir la <em>Grille de vérification</em>, remise séparément.
+    </div>
+
+
+</body>
+</html>
