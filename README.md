@@ -26,31 +26,6 @@ Matériel d'un mini-cours d'introduction à l'adressage IPv4, suivi d'un laborat
 
 Les fichiers `.html` du dossier `laboratoire/` sont les sources des PDF (avec leurs images dans `laboratoire/images/`).
 
-## Le laboratoire en bref (30 min)
-
-| Partie | Durée | Environnement | Ce qu'on fait |
-|---|---|---|---|
-| **0** | 5 min | Windows | `ipconfig`, `ping 127.0.0.1`, `ping` l'ordinateur du voisin |
-| **1** | 15 min | Packet Tracer | Un réseau local : 3 PC + 1 switch, adressage statique, `ping` entre les postes |
-| **2** | 10 min | Packet Tracer | Un 2e réseau + un routeur, passerelle sur les 5 PC, `ping` d'un réseau à l'autre, puis on efface la passerelle pour voir ce qui se passe |
-
-### Topologie et adressage (partie 2)
-
-```
-RÉSEAU A : 192.168.1.0                                         RÉSEAU B : 192.168.2.0
-PC1, PC2, PC3 ── Switch 1 ── Gig0/0/0 [ ROUTEUR ISR4331 ] Gig0/0/1 ── Switch 2 ── PC4, PC5
-                        192.168.1.1                   192.168.2.1
-```
-
-| Équipement | Adresse IPv4 | Masque | Passerelle par défaut |
-|---|---|---|---|
-| PC1 / PC2 / PC3 | 192.168.1.10 / .11 / .12 | 255.255.255.0 | 192.168.1.1 |
-| Routeur — Gig0/0/0 | 192.168.1.1 | 255.255.255.0 | — |
-| Routeur — Gig0/0/1 | 192.168.2.1 | 255.255.255.0 | — |
-| PC4 / PC5 | 192.168.2.10 / .11 | 255.255.255.0 | 192.168.2.1 |
-
-> ⚠️ **Le piège classique :** sur un routeur Cisco, les interfaces sont éteintes par défaut. Il faut cocher **Port Status : On** sur les deux interfaces, sinon les liens restent rouges.
-
 ## Installer Cisco Packet Tracer
 
 Packet Tracer est **gratuit** ; il faut simplement un compte Cisco Networking Academy.
